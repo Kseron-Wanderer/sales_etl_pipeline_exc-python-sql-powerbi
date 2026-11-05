@@ -1,2 +1,24 @@
-# sales_etl_pipeline_exc-python-sql-powerbi
-Automated ETL pipeline: extracting data from Excel, loading into PostgreSQL, cleaning via SQL Views, and visualizing in Power BI.
+# Автоматизация ETL-процесса: Excel -> PostgreSQL -> Power BI
+## О проекте
+Разработан автоматизированный пайплайн для сбора, очистки и визуализации данных о продажах. Скрипт ежедневно забирает «грязные» Excel-файлы, загружает их в базу данных PostgreSQL, где они проходят очистку (удаление дубликатов, обработка пустых значений, приведение типов), и визуализирует результат в Power BI.
+
+## Стек
+*   **Python** (Pandas, SQLAlchemy, OS, shutil) — для чтения файлов и загрузки данных.
+*   **PostgreSQL** — для хранения данных и создания View с очисткой.
+*   **Power BI** — для построения интерактивных дашбордов.
+*   **Планировщик заданий Windows** — для ежедневного автоматического запуска скрипта.
+
+## Как это работает
+1. **Extract:** Скрипт `loader.py` сканирует папку `Incoming_Data` и находит новые файлы `.xls', '.xlsx` или `.csv`.
+2. **Load:** Данные с помощью Pandas загружаются в сырую таблицу `raw_sales` в PostgreSQL. Процесс обернут в транзакцию (защита от потери данных при сбоях).
+3. **Transform:** Создан `VIEW clean_sales`, который автоматически:
+   *   Удаляет дубликаты с помощью `ROW_NUMBER() OVER(PARTITION BY...)`.
+   *   Очищает текст от лишних пробелов и кавычек (`TRIM`, `REPLACE`).
+   *   Заменяет пустые значения на 0 (`COALESCE`).
+4. **Visualize:** Power BI подключен напрямую к `VIEW clean_sales` и обновляет дашборд по расписанию.
+5. **Archive:** После успешной загрузки исходный файл перемещается в папку `Archive_Data`.
+
+## Скриншоты работы
+1. ![Python-script](image.png)
+2. ![VIEW clear_sales](image-1.png)
+3. ![Дашборд в Power BI](image-2.png)
