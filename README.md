@@ -19,6 +19,6 @@
 5. **Archive:** После успешной загрузки исходный файл перемещается в папку `Archive_Data`.
 
 ## Скриншоты работы
-1. ![Python-script](image.png)
-2. ![VIEW clear_sales](image-1.png)
-3. ![Дашборд в Power BI](image-2.png)
+1. ![Скрипт Python](screenshot_script.png)
+2. ![VIEW clean_sales](screenshot_view.png)
+3. ![Дашборд в Power BI](screenshot_dashboard.png)
